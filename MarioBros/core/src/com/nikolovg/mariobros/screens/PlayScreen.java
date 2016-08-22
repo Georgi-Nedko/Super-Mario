@@ -28,6 +28,7 @@ import com.nikolovg.mariobros.tools.Controller;
 import com.nikolovg.mariobros.tools.WorldContactListener;
 
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * Created by Freeware Sys on 8/18/2016.
@@ -52,7 +53,7 @@ public class PlayScreen implements Screen {
     private TextureAtlas atlas;
 
     private Array<Item> items;
-    private PriorityQueue<ItemDef> itemsToSpawn;
+    private Queue<ItemDef> itemsToSpawn;
 
     public PlayScreen(MarioBros game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
