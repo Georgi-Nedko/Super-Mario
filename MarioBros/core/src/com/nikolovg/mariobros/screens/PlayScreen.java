@@ -33,7 +33,7 @@ import java.util.Queue;
 /**
  * Created by Freeware Sys on 8/18/2016.
  */
-public class PlayScreen implements Screen {
+public class PlayScreen implements Screen{
     private MarioBros game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -54,6 +54,7 @@ public class PlayScreen implements Screen {
 
     private Array<Item> items;
     private Queue<ItemDef> itemsToSpawn;
+
 
     public PlayScreen(MarioBros game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
@@ -139,6 +140,7 @@ public class PlayScreen implements Screen {
     public TextureAtlas getAtlas(){
         return atlas;
     }
+
 
     @Override
     public void show() {
