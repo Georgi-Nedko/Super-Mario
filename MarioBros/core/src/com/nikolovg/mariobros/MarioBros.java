@@ -5,7 +5,9 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nikolovg.mariobros.screens.ExampleScreen;
 import com.nikolovg.mariobros.screens.LoadingScreen;
+import com.nikolovg.mariobros.screens.MainMenuScreen;
 
 public class MarioBros extends Game {
 	public SpriteBatch batch;
@@ -32,7 +34,7 @@ public class MarioBros extends Game {
 		manager.load("audio/sounds/bump.wav", Sound.class);
 		manager.load("audio/sounds/breakblock.wav", Sound.class);
 		manager.finishLoading();
-		setScreen(new LoadingScreen(this));
+		setScreen(new ExampleScreen(this));
 	}
 
 	@Override
