@@ -29,6 +29,8 @@ import com.nikolovg.mariobros.tools.WorldContactListener;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by Freeware Sys on 8/18/2016.
@@ -53,7 +55,7 @@ public class PlayScreen implements Screen{
     private TextureAtlas atlas;
 
     private Array<Item> items;
-    private Queue<ItemDef> itemsToSpawn;
+    private LinkedBlockingDeque<ItemDef> itemsToSpawn;
 
 
     public PlayScreen(MarioBros game){
@@ -83,7 +85,7 @@ public class PlayScreen implements Screen{
         music.play();
 
         items = new Array<Item>();
-        itemsToSpawn = new PriorityQueue<ItemDef>();
+        itemsToSpawn = new LinkedBlockingDeque<ItemDef>();
 
     }
 
@@ -101,16 +103,18 @@ public class PlayScreen implements Screen{
     }
 
     public void handleInput(float dt){
-        if((Gdx.input.isKeyJustPressed(Input.Keys.UP)|| controller.isUpPressed())&& player.b2body.getLinearVelocity().y == 0){
-            player.b2body.applyLinearImpulse(new Vector2(0,4f), player.b2body.getWorldCenter(), true);
+        // the player should not be able to control mario once he is dead
+        if(player.currentState != Mario.State.DEAD) {
+            if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed()) && player.b2body.getLinearVelocity().y == 0) {
+                player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+            }
+            if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || controller.isRightPressed()) && player.b2body.getLinearVelocity().x <= 2) {
+                player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+            }
+            if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || controller.isLeftPressed()) && player.b2body.getLinearVelocity().x >= -2) {
+                player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+            }
         }
-        if((Gdx.input.isKeyPressed(Input.Keys.RIGHT)|| controller.isRightPressed() ) && player.b2body.getLinearVelocity().x <= 2){
-            player.b2body.applyLinearImpulse(new Vector2(0.1f,0), player.b2body.getWorldCenter(), true);
-        }
-        if((Gdx.input.isKeyPressed(Input.Keys.LEFT)|| controller.isLeftPressed() ) && player.b2body.getLinearVelocity().x >= -2){
-            player.b2body.applyLinearImpulse(new Vector2(-0.1f,0), player.b2body.getWorldCenter(), true);
-        }
-
     }
 
     public void update(float dt){
@@ -118,7 +122,7 @@ public class PlayScreen implements Screen{
         handleSpawningItems();
         world.step(1/60f, 6, 2);
         player.update(dt);
-        for(Enemy enemy : creator.getGoombas()){
+        for(Enemy enemy : creator.getEnemies()){
             enemy.update(dt);
             if(enemy.getX() < player.getX() + 224/ MarioBros.PPM){
                 enemy.b2Body.setActive(true);
@@ -130,7 +134,12 @@ public class PlayScreen implements Screen{
         }
 
         hud.update(dt);
-        gameCam.position.x = player.b2body.getPosition().x;
+
+        // don't move the camera if mario happens to die while moving on the x axis
+        if(player.currentState != Mario.State.DEAD) {
+            gameCam.position.x = player.b2body.getPosition().x;
+        }
+
         gameCam.update();
         renderer.setView(gameCam);
 
@@ -161,9 +170,10 @@ public class PlayScreen implements Screen{
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        for(Enemy enemy : creator.getGoombas()){
+        for(Enemy enemy : creator.getEnemies()){
             enemy.draw(game.batch);
         }
+
 
         for(Item item : items){
             item.draw(game.batch);
@@ -172,8 +182,17 @@ public class PlayScreen implements Screen{
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        controller.draw();
+        // only draw control buttons if mario is not dead
+        if(player.currentState != Mario.State.DEAD) {
+            controller.draw();
+        }
+
+        if(isGameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -186,6 +205,12 @@ public class PlayScreen implements Screen{
     }
     public World getWorld(){
         return world;
+    }
+    public boolean isGameOver(){
+        if(player.currentState == Mario.State.DEAD && player.getStateTimer() > 3){
+            return  true;
+        }
+        return false;
     }
 
     @Override

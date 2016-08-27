@@ -7,7 +7,9 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.nikolovg.mariobros.MarioBros;
+import com.nikolovg.mariobros.sprites.Mario;
 import com.nikolovg.mariobros.sprites.enemies.Enemy;
+import com.nikolovg.mariobros.sprites.items.Item;
 import com.nikolovg.mariobros.sprites.tiles.InteractiveTileObject;
 
 /**
@@ -21,24 +23,29 @@ public class WorldContactListener implements ContactListener {
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
-        if(fixA.getUserData() == "head" || fixB.getUserData() == "head"){
-            Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
-            Fixture object = head == fixA ? fixB : fixA;
 
-          if(object.getUserData() instanceof InteractiveTileObject)    {
-              ((InteractiveTileObject) object.getUserData()).onHeadHit();
-          }
-
-        }
+        // handling different collisions
         switch (cDef){
-            case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_BIT:
-                if(fixA.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT){
-                    ((Enemy)fixA.getUserData()).hitOnHead();
+            case MarioBros.MARIO_HEAD_BIT | MarioBros.BRICK_BIT:
+            case MarioBros.MARIO_HEAD_BIT | MarioBros.COIN_BIT:
+                if(fixA.getFilterData().categoryBits == MarioBros.MARIO_HEAD_BIT){
+                    ((InteractiveTileObject) fixB.getUserData()).onHeadHit((Mario) fixA.getUserData());
                 }
-                else {
-                    ((Enemy) fixB.getUserData()).hitOnHead();
+                else{
+                    ((InteractiveTileObject) fixA.getUserData()).onHeadHit((Mario) fixB.getUserData());
                 }
                 break;
+
+            case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_BIT:
+                if(fixA.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT){
+                    ((Enemy)fixA.getUserData()).hitOnHead((Mario) fixB.getUserData());
+                }
+                else {
+                    ((Enemy) fixB.getUserData()).hitOnHead((Mario) fixA.getUserData());
+                }
+                break;
+
+
             case MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT:
                 if(fixA.getFilterData().categoryBits == MarioBros.ENEMY_BIT){
                     ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
@@ -47,12 +54,37 @@ public class WorldContactListener implements ContactListener {
                     ((Enemy) fixB.getUserData()).reverseVelocity(true, false);
                 }
                 break;
+
             case MarioBros.MARIO_BIT | MarioBros.ENEMY_BIT:
-                Gdx.app.log("Mario", "Died");
+                if(fixA.getFilterData().categoryBits == MarioBros.MARIO_BIT){
+                    ((Mario) fixA.getUserData()).hit((Enemy) fixB.getUserData());
+                }
+                else{
+                    ((Mario) fixB.getUserData()).hit((Enemy) fixA.getUserData());
+                }
                 break;
+
             case MarioBros.ENEMY_BIT | MarioBros.ENEMY_BIT:
                 ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
                 ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
+            case MarioBros.ITEM_BIT | MarioBros.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == MarioBros.ITEM_BIT){
+                    ((Item)fixA.getUserData()).reverseVelocity(true, false);
+                }
+                else {
+                    ((Item) fixB.getUserData()).reverseVelocity(true, false);
+                }
+                break;
+
+            case MarioBros.ITEM_BIT | MarioBros.MARIO_BIT:
+                if(fixA.getFilterData().categoryBits == MarioBros.ITEM_BIT){
+                    ((Item)fixA.getUserData()).useItem((Mario) fixB.getUserData());
+                }
+                else {
+                    ((Item) fixB.getUserData()).useItem((Mario) fixA.getUserData());
+                }
                 break;
         }
     }

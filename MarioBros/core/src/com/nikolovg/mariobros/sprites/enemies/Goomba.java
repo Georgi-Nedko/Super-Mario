@@ -1,5 +1,6 @@
 package com.nikolovg.mariobros.sprites.enemies;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.nikolovg.mariobros.MarioBros;
 import com.nikolovg.mariobros.screens.PlayScreen;
+import com.nikolovg.mariobros.sprites.Mario;
 
 /**
  * Created by Freeware Sys on 8/19/2016.
@@ -88,8 +90,9 @@ public class Goomba extends Enemy {
          }
      }
     @Override
-    public void hitOnHead(){
+    public void hitOnHead(Mario mario){
         setToDestroy = true;
+        MarioBros.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }
 
 }

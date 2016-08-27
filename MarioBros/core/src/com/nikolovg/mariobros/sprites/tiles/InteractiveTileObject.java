@@ -1,5 +1,7 @@
 package com.nikolovg.mariobros.sprites.tiles;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.nikolovg.mariobros.MarioBros;
 import com.nikolovg.mariobros.screens.PlayScreen;
+import com.nikolovg.mariobros.sprites.Mario;
 
 /**
  * Created by Freeware Sys on 8/18/2016.
@@ -25,11 +28,13 @@ public abstract class InteractiveTileObject {
     protected Body body;
     protected Fixture fixture;
     protected PlayScreen screen;
+    protected MapObject object;
 
-    public InteractiveTileObject(PlayScreen screen, Rectangle bounds){
+    public InteractiveTileObject(PlayScreen screen, MapObject object){
+        this.object = object;
         this.world = screen.getWorld();
         this.map = screen.getMap();
-        this.bounds = bounds;
+        this.bounds = ((RectangleMapObject) object).getRectangle();
         this.screen = screen;
         BodyDef bDef = new BodyDef();
         FixtureDef fDef = new FixtureDef();
@@ -45,7 +50,7 @@ public abstract class InteractiveTileObject {
 
     }
 
-    public abstract void onHeadHit();
+    public abstract void onHeadHit(Mario mario);
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
