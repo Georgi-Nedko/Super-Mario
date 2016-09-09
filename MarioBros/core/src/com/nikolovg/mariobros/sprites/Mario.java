@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.nikolovg.mariobros.MarioBros;
@@ -210,7 +211,7 @@ public class Mario extends Sprite{
         // define Mario fixture
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / MarioBros.PPM);
+        shape.setRadius(5 / MarioBros.PPM);
         fdef.filter.categoryBits = MarioBros.MARIO_BIT;
         fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
                 | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
@@ -225,6 +226,14 @@ public class Mario extends Sprite{
         fdef.filter.categoryBits = MarioBros.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
+        b2body.createFixture(fdef).setUserData(this);
+
+        //define marios feet
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-3 / MarioBros.PPM, -6 / MarioBros.PPM), new Vector2(3 / MarioBros.PPM, -6 / MarioBros.PPM));
+        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        fdef.shape = feet;
+        fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
 
         //setting a boolean to insure the recreation only happens once
@@ -265,6 +274,15 @@ public class Mario extends Sprite{
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
+
+        //define marios feet
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-4 / MarioBros.PPM, -20 / MarioBros.PPM), new Vector2(4 / MarioBros.PPM, -20 / MarioBros.PPM));
+        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        fdef.shape = feet;
+        fdef.isSensor = false;
+        b2body.createFixture(fdef).setUserData(this);
+
         // the boolean insures the growing definition will be executed only once;
         isItTimeToDefineBigMario = false;
     }
@@ -280,7 +298,7 @@ public class Mario extends Sprite{
         // define Mario fixture
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / MarioBros.PPM);
+        shape.setRadius(5 / MarioBros.PPM);
         fdef.filter.categoryBits = MarioBros.MARIO_BIT;
         fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
                 | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
@@ -296,6 +314,15 @@ public class Mario extends Sprite{
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
+
+        //define marios feet
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-3 / MarioBros.PPM, -6 / MarioBros.PPM), new Vector2(3 / MarioBros.PPM, -6 / MarioBros.PPM));
+        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        fdef.shape = feet;
+        fdef.isSensor = false;
+        b2body.createFixture(fdef).setUserData(this);
+
     }
 
     public void grow(){
