@@ -13,6 +13,8 @@ import com.nikolovg.mariobros.sprites.Mario;
 import com.nikolovg.mariobros.sprites.items.ItemDef;
 import com.nikolovg.mariobros.sprites.items.Mushroom;
 
+import sun.rmi.runtime.Log;
+
 /**
  * Created by Freeware Sys on 8/18/2016.
  */
@@ -37,6 +39,7 @@ public class Coin  extends com.nikolovg.mariobros.sprites.tiles.InteractiveTileO
         else{
 
             if(object.getProperties().containsKey("mushroom")) {
+                Gdx.app.log("Mushroom", "Spawn");
                 screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / MarioBros.PPM), Mushroom.class));
                 MarioBros.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play();
             }

@@ -50,7 +50,7 @@ public class LoadingScreen implements Screen {
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new PlayScreen(game));
+            game.setScreen(new PlayScreen("testLevel.tmx",game));
             dispose();
         }
     }

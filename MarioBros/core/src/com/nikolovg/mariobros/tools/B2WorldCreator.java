@@ -86,9 +86,9 @@ public class B2WorldCreator {
         }
     }
 
-    public Array<Goomba> getGoombas(){
+   /* public Array<Goomba> getGoombas(){
         return goombas;
-    }
+    }*/
     public Array<Enemy> getEnemies(){
         Array<Enemy> enemies = new Array<Enemy>();
         enemies.addAll(goombas);

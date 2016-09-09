@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nikolovg.mariobros.MarioBros;
@@ -68,7 +69,11 @@ public class Controller {
 
         Image upImg = new Image(new Texture("upButton.png"));
         upImg.setSize(75,75);
-        upImg.addListener(new InputListener(){
+
+
+        upImg.addListener(new ClickListener(){
+
+
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 upPressed = true;

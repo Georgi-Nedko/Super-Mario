@@ -58,14 +58,14 @@ public class PlayScreen implements Screen{
     private LinkedBlockingDeque<ItemDef> itemsToSpawn;
 
 
-    public PlayScreen(MarioBros game){
+    public PlayScreen(String level, MarioBros game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(MarioBros.V_WIDTH / MarioBros.PPM, MarioBros.V_HEIGHT / MarioBros.PPM,gameCam);
         hud = new Hud(game.batch);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("level1.tmx");
+        map = mapLoader.load(level);
         renderer = new OrthogonalTiledMapRenderer(map, 1 / MarioBros.PPM);
         gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
         controller = new Controller(game);
