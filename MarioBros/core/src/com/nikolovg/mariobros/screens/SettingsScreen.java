@@ -94,12 +94,12 @@ public class SettingsScreen implements Screen {
         backButtonSkin = new Skin();
         backButtonSkin.addRegions(sliderAtlas);
         textButtonStyle.font = font;
-        textButtonStyle.font.getData().scale(0.3f);
+        textButtonStyle.font.getData().scale(0.2f);
 
         textButtonStyle.up = backButtonSkin.getDrawable("button");
         textButtonStyle.down = backButtonSkin.getDrawable("button-pressed");
         //backButton create,set height,width and set position
-        backButton = new TextButton("Back",textButtonStyle);
+        backButton = new TextButton("Back to " + "\n" + " Main menu",textButtonStyle);
         backButton.setWidth(stage.getViewport().getWorldWidth()/5f);
         backButton.setHeight(stage.getViewport().getWorldHeight()/5f);
         backButton.setPosition(stage.getViewport().getWorldWidth()/12f,stage.getViewport().getWorldHeight()/12f);
