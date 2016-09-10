@@ -41,6 +41,7 @@ public class MainMenuScreen implements Screen {
     private Viewport viewport;
     private static MainMenuScreen mainMenuScreen;
     public static final Color myColor = new Color(1f,0.35f,0f,0.9f);
+    public static final Color myColorAlphaChanged = new Color(1f,0.35f,0f,0.7f);
 
 
 
