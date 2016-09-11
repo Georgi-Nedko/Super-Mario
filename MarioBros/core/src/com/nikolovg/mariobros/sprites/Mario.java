@@ -291,7 +291,7 @@ public class Mario extends Sprite{
     public void defineMario(){
         //create a body definition for mario
         BodyDef bDef = new BodyDef();
-        bDef.position.set(32/ MarioBros.PPM,32/ MarioBros.PPM);
+        bDef.position.set(256/ MarioBros.PPM,32/ MarioBros.PPM);
         bDef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bDef);
 
