@@ -32,6 +32,8 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import sun.rmi.runtime.Log;
+
 /**
  * Created by Freeware Sys on 8/18/2016.
  */
@@ -56,7 +58,6 @@ public class PlayScreen implements Screen{
 
     private Array<Item> items;
     private LinkedBlockingDeque<ItemDef> itemsToSpawn;
-
 
     public PlayScreen(String level, MarioBros game){
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
@@ -106,7 +107,8 @@ public class PlayScreen implements Screen{
     public void handleInput(float dt){
         // the player should not be able to control mario once he is dead
         if(player.currentState != Mario.State.DEAD) {
-            if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed()) && player.b2body.getLinearVelocity().y == 0) {
+
+            if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed()) && player.b2body.getLinearVelocity().y == 0 && WorldContactListener.isJumpAllowed) {
                 player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
             }
             if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || controller.isRightPressed()) && player.b2body.getLinearVelocity().x <= 2) {

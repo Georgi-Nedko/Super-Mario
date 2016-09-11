@@ -19,12 +19,14 @@ import com.nikolovg.mariobros.MarioBros;
 public class Controller {
 
     Viewport viewport;
-    Stage stage;
+    public Stage stage;
     boolean upPressed;
     boolean leftPressed;
     boolean rightPressed;
     OrthographicCamera cam;
     MarioBros game;
+    Table leftRightTable;
+    Image upImg;
 
     public Controller (MarioBros game){
         this.game = game;
@@ -33,7 +35,7 @@ public class Controller {
         stage = new Stage(viewport, game.batch);
         Gdx.input.setInputProcessor(stage);
 
-        Table leftRightTable = new Table();
+        leftRightTable = new Table();
         leftRightTable.left().bottom();
         Table upTable = new Table();
         upTable.right().bottom();
@@ -67,7 +69,7 @@ public class Controller {
             }
         });
 
-        Image upImg = new Image(new Texture("upButton.png"));
+        upImg = new Image(new Texture("upButton.png"));
         upImg.setSize(75,75);
 
 
@@ -114,5 +116,11 @@ public class Controller {
 
     public void resize(int width, int height){
         viewport.update(width,height);
+    }
+    public Table getTable(){
+         return leftRightTable;
+    }
+    public Image getUpImg(){
+        return upImg;
     }
 }

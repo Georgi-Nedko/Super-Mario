@@ -16,6 +16,7 @@ import com.nikolovg.mariobros.sprites.tiles.InteractiveTileObject;
  * Created by Freeware Sys on 8/18/2016.
  */
 public class WorldContactListener implements ContactListener {
+    public static boolean isJumpAllowed = true;
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -34,6 +35,7 @@ public class WorldContactListener implements ContactListener {
                 else{
                     ((InteractiveTileObject) fixA.getUserData()).onHeadHit((Mario) fixB.getUserData());
                 }
+                isJumpAllowed = false;
                 break;
 
             case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_BIT:
@@ -91,7 +93,16 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
 
+        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+        switch (cDef) {
+            case MarioBros.MARIO_HEAD_BIT | MarioBros.BRICK_BIT:
+            case MarioBros.MARIO_HEAD_BIT | MarioBros.COIN_BIT:
+                isJumpAllowed = true;
+                break;
+        }
     }
 
     @Override
