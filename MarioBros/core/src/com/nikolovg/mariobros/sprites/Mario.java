@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.nikolovg.mariobros.MarioBros;
 import com.nikolovg.mariobros.screens.PlayScreen;
+import com.nikolovg.mariobros.screens.SettingsScreen;
 import com.nikolovg.mariobros.sprites.enemies.Enemy;
 import com.nikolovg.mariobros.sprites.enemies.Turtle;
 
@@ -331,7 +332,7 @@ public class Mario extends Sprite{
         isItTimeToDefineBigMario = true;
         //set sprite size to be 16 by 32 for big Mario
         setBounds(getX(), getY(), getWidth(),getHeight()*2);
-        MarioBros.manager.get("audio/sounds/powerup.wav", Sound.class).play();
+        MarioBros.manager.get("audio/sounds/powerup.wav", Sound.class).play(SettingsScreen.volumeValue);
     }
 
     public boolean getIsMarioBig(){
@@ -348,10 +349,10 @@ public class Mario extends Sprite{
                 isMarioBig = false;
                 isItTimeToReDefineMario = true;
                 setBounds(getX(), getY(), getWidth(), getHeight() / 2);
-                MarioBros.manager.get("audio/sounds/powerdown.wav", Sound.class).play();
+                MarioBros.manager.get("audio/sounds/powerdown.wav", Sound.class).play(SettingsScreen.volumeValue);
             } else {
                 MarioBros.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-                MarioBros.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+                MarioBros.manager.get("audio/sounds/mariodie.wav", Sound.class).play(SettingsScreen.volumeValue);
                 isMarioDead = true;
                 //create a filter and attach it to mario so that we don't have any collision anymore
                 //which allows mario to fall through everything upon death as per the original game
@@ -372,7 +373,7 @@ public class Mario extends Sprite{
     public void killMarioByFall(){
 
             MarioBros.manager.get("audio/music/mario_music.ogg", Music.class).stop();
-            MarioBros.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+            MarioBros.manager.get("audio/sounds/mariodie.wav", Sound.class).play(SettingsScreen.volumeValue);
             isMarioDead = true;
             //create a filter and attach it to mario so that we don't have any collision anymore
             //which allows mario to fall through everything upon death as per the original game

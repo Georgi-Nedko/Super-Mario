@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.nikolovg.mariobros.MarioBros;
 import com.nikolovg.mariobros.scenes.Hud;
 import com.nikolovg.mariobros.screens.PlayScreen;
+import com.nikolovg.mariobros.screens.SettingsScreen;
 import com.nikolovg.mariobros.sprites.Mario;
 
 /**
@@ -26,10 +27,10 @@ public class Brick extends com.nikolovg.mariobros.sprites.tiles.InteractiveTileO
             setCategoryFilter(MarioBros.DESTROYED_BIT);
             getCell().setTile(null);
             Hud.addScore(200);
-            MarioBros.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
+            MarioBros.manager.get("audio/sounds/breakblock.wav", Sound.class).play(SettingsScreen.volumeValue);
         }
         else{
-            MarioBros.manager.get("audio/sounds/bump.wav", Sound.class).play();
+            MarioBros.manager.get("audio/sounds/bump.wav", Sound.class).play(SettingsScreen.volumeValue);
         }
     }
 }
