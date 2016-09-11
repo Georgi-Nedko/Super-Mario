@@ -135,12 +135,12 @@ public class LoadingScreen implements Screen {
         game.batch.draw(background, 0, 0);
         game.batch.end();
 
-<<<<<<< HEAD
+
         if (Gdx.input.isTouched()) {
             game.setScreen(new PlayScreen("level2.tmx",game));
             dispose();
         }
-=======
+
         stage.act();
 
         stage.draw();
@@ -149,7 +149,7 @@ public class LoadingScreen implements Screen {
 //            game.setScreen(new PlayScreen("testLevel.tmx",game));
 //            dispose();
 //        }
->>>>>>> c783106189373b0c5c7d96992b3a565974747a01
+
     }
 
     @Override
