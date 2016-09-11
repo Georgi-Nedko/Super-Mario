@@ -41,13 +41,10 @@ public class MainMenuScreen implements Screen {
     private Viewport viewport;
     private static MainMenuScreen mainMenuScreen;
     public static final Color myColor = new Color(1f,0.35f,0f,0.9f);
+    public static final Color myColorAlphaChanged = new Color(1f,0.35f,0f,0.7f);
 
 
 
-//    private MainMenuScreen(){
-//
-//        create();
-//    }
 
     public MainMenuScreen(MarioBros g) {
         //seting game
@@ -119,19 +116,19 @@ public class MainMenuScreen implements Screen {
         //set position
         loadGameButton.setPosition(stage.getViewport().getWorldWidth() / 1.8f, stage.getViewport().getWorldHeight() / 2.18f);
         //listener for load game button
-//        loadGameButton.addListener(new InputListener() {
-//                                      @Override
-//                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                                          return true;
-//                                      }
-//
-//                                      @Override
-//                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                                          game.setScreen(new LoadingScreen(game));
-//                                          dispose();
-//                                      }
-//                                  }
-//        );
+        loadGameButton.addListener(new InputListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                         // game.setScreen(new LoadingScreen(game));
+                                          dispose();
+                                      }
+                                  }
+        );
 
         //settings button
         settingsButton = new TextButton("Settings",style);
@@ -164,19 +161,20 @@ public class MainMenuScreen implements Screen {
         //set position
         exitButton.setPosition(stage.getViewport().getWorldWidth() / 1.8f, stage.getViewport().getWorldHeight() / 6.38f);
         //listener for exit button
-//        exitButton.addListener(new InputListener() {
-//                                      @Override
-//                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                                          return true;
-//                                      }
-//
-//                                      @Override
-//                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                                          game.setScreen(new LoadingScreen(game));
-//                                          dispose();
-//                                      }
-//                                  }
-//        );
+        exitButton.addListener(new InputListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                         // game.setScreen(new LoadingScreen(game));
+                                          System.exit(0);
+                                          dispose();
+                                      }
+                                  }
+        );
 
         //add button to the stage
         stage.addActor(mainMenu);
