@@ -2,18 +2,23 @@
 package com.nikolovg.mariobros.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nikolovg.mariobros.MarioBros;
@@ -27,10 +32,9 @@ public class SettingsScreen implements Screen {
     Label settingsLabel;
     TextButton backButton;
     Skin backButtonSkin;
-    //SelectBox selectBox;
-    //Skin selectBoxSkin;
-    //  Skin listSkin;
-    //List list;
+
+    CheckBox checkBoxOn;
+    CheckBox.CheckBoxStyle checkBoxStyle;
 
     MarioBros game;
     Skin sliderSkin;
@@ -42,6 +46,7 @@ public class SettingsScreen implements Screen {
     private OrthographicCamera cam;
     private Viewport viewport;
     private SettingsScreen settingsScreen;
+    public static float volumeValue = 0.0f;
 
 
     public SettingsScreen(final MarioBros game){
@@ -77,17 +82,29 @@ public class SettingsScreen implements Screen {
 
         //creating the  slider style
         Slider.SliderStyle sliderStyle = new Slider.SliderStyle();
-        sliderAtlas = new TextureAtlas("skin-comic/comic-ui.atlas");
+        sliderAtlas = new TextureAtlas("skin-neon/neon-ui.atlas");
         sliderSkin = new Skin();
         sliderSkin.addRegions(sliderAtlas);
         sliderStyle.background = sliderSkin.getDrawable("slider");
         sliderStyle.knob = sliderSkin.getDrawable("slider-knob");
 
         //set height,width and position to slider
-        slider = new Slider(1.0f,3.0f,0.1f,false,sliderStyle);
+
+        slider = new Slider(0.0f,1.0f,0.1f,false,sliderStyle);
         slider.setHeight(stage.getViewport().getWorldHeight()/10f);
         slider.setWidth(stage.getViewport().getWorldWidth()/6f);
         slider.setPosition(stage.getViewport().getWorldWidth()/8f,stage.getViewport().getWorldHeight()/2f);
+        slider.setAnimateDuration(0.2f);
+        slider.setVisible(true);
+        slider.setValue(volumeValue);
+        slider.setName("SLIDER");
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                volumeValue = slider.getValue();
+                Gdx.app.error("VOLUME value","" + volumeValue);
+            }
+        });
 
         //back button creating syle
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
@@ -118,6 +135,8 @@ public class SettingsScreen implements Screen {
                 dispose();
             }
         });
+
+
 
 
 
@@ -170,6 +189,7 @@ public class SettingsScreen implements Screen {
         stage.addActor(volumeLabel);
         stage.addActor(slider);
         stage.addActor(backButton);
+       // stage.addActor(checkBoxOn);
 
 
 

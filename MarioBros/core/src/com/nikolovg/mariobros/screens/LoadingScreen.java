@@ -110,8 +110,8 @@ public class LoadingScreen implements Screen {
 //                                      }
 //                                  }
 //        );
-        level_1 = createButton(level_1,style,"level1.tmx");
-        level_test = createButton(level_test,style,"testLevel.tmx");
+        level_1 = createButton(level_1,style,"level1.tmx","level 1");
+        level_test = createButton(level_test,style,"testLevel.tmx","Test");
         level_test.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
         stage.addActor(level_1);
         stage.addActor(level_test);
@@ -170,11 +170,12 @@ public class LoadingScreen implements Screen {
     public void dispose () {
         background.dispose();
     }
-    public TextButton createButton(TextButton button, TextButton.TextButtonStyle style, final String level){
+    public TextButton createButton(TextButton button, TextButton.TextButtonStyle style, final String level,String name){
 
 
         //set button properties
-        button = new TextButton(level.split(".tmx")[0],style);
+        //level.split(".tmx")[0]
+        button = new TextButton(name,style);
         // level_1.setColor(MainMenuScreen.myColor);
         button.setColor(MainMenuScreen.myColorAlphaChanged);
 
