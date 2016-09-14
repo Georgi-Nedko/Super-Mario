@@ -10,7 +10,7 @@
  </layer>
  <layer name="graphics" width="240" height="14">
   <data encoding="base64" compression="zlib">
-   eJztmVFPAyEMx9ktMdHofJvx9d7UTF8Xv6f6TdSPJ8Q1NqSshRbYTX5Jc1sO2lL477jh3GAwGAwGgx5cI6vJ2+Tcu7eP6TT89IzbegxLzr1GzF5rqAY33tbebhU+JPX49Pe+vH1Pf+1Lamjlp1f+1r6WnHtJ/riPZgyz+zWJr/tVfgyg5m9FeObukJU+g+P6Stvn9Gnhp3X+Fr6WnDv2kdPfIi7oV+LrVaHfkvFJWR/sGX2uzYSsBveE5TC5vBzj9lyfXP+W9IzNwdXROl/QrwSNfmsCmn1x7fQ7GJwC56DfHWEt/ssaDHpzDvrFe2e8h7Z6DktrJK3jwJ5LvzavTnR91kSr31bnNsfAe2e8h5bol3uPml09/R5bc5r339RYqHipGKXv3ZKYNfw8+ntPnfQreafV1hHixLG0+rU4t9GyOWIp7pi5Dvexdq30i+Nq1pwk/xiLNc7FlcS0yD3Wc2394rktyZ8j53cO+9fo1+rcRkvYM2+IK6Xf7WEMe6ZWsXal+qXabVGsvXLNSfOH+6E99Cld46n8JVAxUz5gDUty575TuWuYna72HNzcpOagVL/BX49zG4qwZ94QV0q/D+h6ERlAabdEv+AXYuH4gRI9SfKP28Hn3Hhc/hKomKncoa0kd+47lbuG2elqz5GaG24OcvSL2wUf1LmNRa1yWQ1raqX17z1fS8z5P9gPMiR+4w==
+   eJztmc1OwzAMx7NOQgJBuQ3t2hugwXXiPYE3AR6PRGqEFTm1E+ejHf5JVjc1sR0n/zVdjFEURVEUpQe3wGryPhjzYe1zWIefnnFbj2HLudeI2WsN1eDO2t7avcAHpx5f9t63tZ/hr31ODUv56ZV/aV9bzj0nf9hHMoYw/pKv4y49Rui/xm+Fe+aegOU+g8P6ctun9Gnhp3X+JXxtOXfoI6V/6zG8CfSbMz4u+9lewOfaDMBqcEQshcGk5Ri2p/qk+i9Jz9gUVB1L5zvNxkGi35p4zb6advpVlDVwCfo9IdbivyxF6c0l6BfuneEeutRzmFsjbh2V8lzbtXmz0vVZE6l+W53bLAH3znAPzdEv9R41mXr6XVpzkvff2FiweLEYue/dnJg1/DzZe8+d9Mt5p5XW0ccJY0n1W+LcRsq4YDEeiLl296F2S+kXxpWsOU7+ISXWOBWXE7NE7qGea+sXzm1O/hQpv3PQv0S/pc5tpLg984hcMf0e5jGciVqF2uXqF2t3ALHOwjXHzd/fd+19n9w1HsufAxYz5sOvYU7u1HcsdwmTkdWegpqb2Bzk6tf563Fug+H2zCNyxfT7CK5XgXkw7ebo1/v1sWB8R46eOPmH7fzn1HhU/hywmLHcfVtO7tR3LHcJk5HVniI2N9Qc5OrX+cDObUrUKpWdWlPLrX/v+dpizv/BfgFJjn50
   </data>
  </layer>
  <objectgroup name="ground">
@@ -19,7 +19,7 @@
   <object id="3" x="1728" y="208" width="480" height="16"/>
   <object id="4" x="2256" y="208" width="160" height="16"/>
   <object id="6" x="2448" y="208" width="1396" height="16"/>
-  <object id="8" x="3056" y="48" width="32" height="160"/>
+  <object id="8" x="3056" y="79" width="32" height="129"/>
   <object id="16" x="368" y="144" width="16" height="64"/>
   <object id="17" x="352" y="160" width="16" height="48"/>
   <object id="18" x="336" y="176" width="16" height="32"/>
@@ -114,6 +114,6 @@
   <object id="100" x="2752" y="192" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="finish">
-  <object id="110" x="3232" y="32" width="16" height="160"/>
+  <object id="110" x="3232" y="32" width="16" height="176"/>
  </objectgroup>
 </map>

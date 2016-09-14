@@ -58,8 +58,10 @@ public class PlayScreen implements Screen{
 
     private Array<Item> items;
     private LinkedBlockingDeque<ItemDef> itemsToSpawn;
+    private boolean isMoved;
 
     public PlayScreen(String level, MarioBros game){
+        isMoved = false;
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
         gameCam = new OrthographicCamera();
@@ -106,7 +108,7 @@ public class PlayScreen implements Screen{
 
     public void handleInput(float dt){
         // the player should not be able to control mario once he is dead
-        if(player.currentState != Mario.State.DEAD) {
+        if(player.currentState != Mario.State.DEAD && !Mario.isFinished) {
 
             if (((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed())) && player.b2body.getLinearVelocity().y == 0 ) {//&& WorldContactListener.isJumpAllowed
                 player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
@@ -119,13 +121,20 @@ public class PlayScreen implements Screen{
             }
         }
     }
+    public void moveMarioToCastle(float dt){
+        player.b2body.applyLinearImpulse(new Vector2(2.1f, 0), player.b2body.getWorldCenter(), true);
+        isMoved = true;
+    }
 
     public void update(float dt){
         handleInput(dt);
         handleSpawningItems();
         world.step(1/60f, 6, 2);
         player.update(dt);
-
+        if(Mario.isFinished && !isMoved){
+            if(player.getState() == Mario.State.STANDING)
+                moveMarioToCastle(dt);
+        }
         for(Enemy enemy : creator.getEnemies()){
             enemy.update(dt);
             if(enemy.getX() < player.getX() + 224/ MarioBros.PPM){
@@ -169,11 +178,15 @@ public class PlayScreen implements Screen{
 
         renderer.render();
 
-        b2dr.render(world, gameCam.combined);
+        //b2dr.render(world, gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
-        player.draw(game.batch);
+        // stop drawing mario when he is moved to the castle door and is there for more than 0.5 seconds
+        if(!((isMoved && player.b2body.getLinearVelocity().x == 0 )&& player.getStateTimer() > 0.5f )){
+            player.draw(game.batch);
+        }
+
         for(Enemy enemy : creator.getEnemies()){
             enemy.draw(game.batch);
         }
@@ -187,7 +200,7 @@ public class PlayScreen implements Screen{
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         // only draw control buttons if mario is not dead
-        if(player.currentState != Mario.State.DEAD) {
+        if(player.currentState != Mario.State.DEAD  && !Mario.isFinished) {
             controller.draw();
         }
 
@@ -195,7 +208,7 @@ public class PlayScreen implements Screen{
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
-        if(Mario.isFinished && player.getStateTimer() > 1){
+        if(Mario.isFinished && player.getStateTimer() > 3){
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }

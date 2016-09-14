@@ -382,6 +382,11 @@ public class Mario extends Sprite{
     }
 
     public void finishLevel() {
+        Filter filter = new Filter();
+        filter.maskBits = MarioBros.GROUND_BIT;
+        for(Fixture fixture : b2body.getFixtureList()){
+            fixture.setFilterData(filter);
+        }
         isFinished = true;
     }
 
@@ -401,7 +406,7 @@ public class Mario extends Sprite{
             for (Fixture fixture : b2body.getFixtureList()) {
                 fixture.setFilterData(filter);
             }
-            b2body.applyLinearImpulse(new Vector2(0, 8f), b2body.getWorldCenter(), true);
+
 
     }
 
