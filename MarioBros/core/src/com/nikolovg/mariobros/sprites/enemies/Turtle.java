@@ -71,6 +71,7 @@ public class Turtle  extends Enemy{
         fdef.shape = head;
         fdef.restitution = 1.5f;
         fdef.filter.categoryBits = MarioBros.ENEMY_HEAD_BIT;
+        fdef.filter.maskBits = MarioBros.MARIO_FEET_BIT;
         b2Body.createFixture(fdef).setUserData(this);
     }
 

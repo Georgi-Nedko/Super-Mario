@@ -54,8 +54,21 @@ public class B2WorldCreator {
             fDef.shape = shape;
             fDef.filter.categoryBits = MarioBros.OBJECT_BIT;
             body.createFixture(fDef);
-
         }
+
+        //create finish body/fixture
+        for(MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            bDef.type = BodyDef.BodyType.StaticBody;
+            bDef.position.set((rect.getX() + rect.getWidth()/2)/ MarioBros.PPM, (rect.getY() + rect.getHeight()/2)/ MarioBros.PPM);
+            body = world.createBody(bDef);
+            shape.setAsBox(rect.getWidth()/2/ MarioBros.PPM , rect.getHeight()/2/ MarioBros.PPM);
+            fDef.shape = shape;
+            fDef.filter.categoryBits = MarioBros.FINISH_BIT;
+            fDef.filter.maskBits =  MarioBros.MARIO_BIT;
+            body.createFixture(fDef);
+        }
+
         //create brick body/fixture
         for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
 
@@ -85,6 +98,7 @@ public class B2WorldCreator {
 
         }
     }
+
 
    /* public Array<Goomba> getGoombas(){
         return goombas;

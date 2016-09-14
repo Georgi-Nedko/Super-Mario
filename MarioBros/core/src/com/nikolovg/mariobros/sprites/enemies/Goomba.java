@@ -58,15 +58,17 @@ public class Goomba extends Enemy {
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertice = new Vector2[4];
-        vertice[0] = new Vector2(-5, 8).scl(1/MarioBros.PPM);
-        vertice[1] = new Vector2(5, 8).scl(1/MarioBros.PPM);
-        vertice[2] = new Vector2(-3, 3).scl(1/MarioBros.PPM);
-        vertice[3] = new Vector2(3, 3).scl(1/MarioBros.PPM);
+        vertice[0] = new Vector2(-3.5f, 7).scl(1/MarioBros.PPM);
+        vertice[1] = new Vector2(3.5f, 7).scl(1/MarioBros.PPM);
+        vertice[2] = new Vector2(6f, 5).scl(1/MarioBros.PPM);
+        vertice[3] = new Vector2(-6f, 5).scl(1/MarioBros.PPM);
+
         head.set(vertice);
 
         fdef.shape = head;
         fdef.restitution = 0.5f;
         fdef.filter.categoryBits = MarioBros.ENEMY_HEAD_BIT;
+        fdef.filter.maskBits = MarioBros.MARIO_FEET_BIT | MarioBros.MARIO_BIT;
         b2Body.createFixture(fdef).setUserData(this);
     }
 

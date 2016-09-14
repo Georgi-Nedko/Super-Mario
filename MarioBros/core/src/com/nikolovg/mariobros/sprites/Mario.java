@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.nikolovg.mariobros.MarioBros;
+import com.nikolovg.mariobros.screens.MainMenuScreen;
 import com.nikolovg.mariobros.screens.PlayScreen;
 import com.nikolovg.mariobros.screens.SettingsScreen;
 import com.nikolovg.mariobros.sprites.enemies.Enemy;
@@ -26,13 +27,16 @@ import com.nikolovg.mariobros.sprites.enemies.Turtle;
  * Created by Freeware Sys on 8/18/2016.
  */
 public class Mario extends Sprite{
+
+
     public enum State {FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD};
     public State currentState;
     public State previousState;
 
     public World world;
     public Body b2body;
-
+    private MarioBros game;
+    private PlayScreen screen;
     private TextureRegion marioStand;
     private Animation marioRun;
     private TextureRegion marioJump;
@@ -42,6 +46,7 @@ public class Mario extends Sprite{
     private Animation bigMarioRun;
     private Animation growMario;
 
+    public static boolean isFinished;
     private boolean runningRight;
     private float stateTimer;
     private boolean isMarioBig;
@@ -50,14 +55,15 @@ public class Mario extends Sprite{
     private boolean isItTimeToReDefineMario;
     private boolean isMarioDead;
 
-    public Mario(PlayScreen screen){
-
+    public Mario(PlayScreen screen, MarioBros game){
+        this.game = game;
         this.world = screen.getWorld();
-
+        this.screen = screen;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+        isFinished = false;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
         //get the 1st 2nd 3rd image from little_mario
@@ -102,7 +108,7 @@ public class Mario extends Sprite{
     public void update(float dt){
         //update sprite position to follow the Box2D body and check if mario is big or not
         if(isMarioBig){
-            setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2 -6 /MarioBros.PPM);
+            setPosition(b2body.getPosition().x - getWidth()/2, b2body.getPosition().y - getHeight()/2 -8 /MarioBros.PPM);
         }
         else {
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
@@ -216,7 +222,7 @@ public class Mario extends Sprite{
         fdef.filter.categoryBits = MarioBros.MARIO_BIT;
         fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
                 | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
-                | MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
+                | MarioBros.ITEM_BIT | MarioBros.FINISH_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
@@ -231,8 +237,11 @@ public class Mario extends Sprite{
 
         //define marios feet
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-3 / MarioBros.PPM, -6 / MarioBros.PPM), new Vector2(3 / MarioBros.PPM, -6 / MarioBros.PPM));
-        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        feet.set(new Vector2(-4 / MarioBros.PPM, -6 / MarioBros.PPM), new Vector2(4 / MarioBros.PPM, -6 / MarioBros.PPM));
+        fdef.filter.categoryBits = MarioBros.MARIO_FEET_BIT;
+        fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
+                | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
+                | MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
@@ -261,7 +270,7 @@ public class Mario extends Sprite{
         fdef.filter.categoryBits = MarioBros.MARIO_BIT;
         fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
                 | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
-                | MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
+                | MarioBros.ITEM_BIT | MarioBros.FINISH_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
@@ -278,8 +287,11 @@ public class Mario extends Sprite{
 
         //define marios feet
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-4 / MarioBros.PPM, -20 / MarioBros.PPM), new Vector2(4 / MarioBros.PPM, -20 / MarioBros.PPM));
-        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        feet.set(new Vector2(-4 / MarioBros.PPM, -22 / MarioBros.PPM), new Vector2(4 / MarioBros.PPM, -22 / MarioBros.PPM));
+        fdef.filter.categoryBits = MarioBros.MARIO_FEET_BIT;
+        fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
+                | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
+                | MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
@@ -303,7 +315,7 @@ public class Mario extends Sprite{
         fdef.filter.categoryBits = MarioBros.MARIO_BIT;
         fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
                 | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
-                | MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
+                | MarioBros.ITEM_BIT | MarioBros.FINISH_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
@@ -318,8 +330,11 @@ public class Mario extends Sprite{
 
         //define marios feet
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-3 / MarioBros.PPM, -6 / MarioBros.PPM), new Vector2(3 / MarioBros.PPM, -6 / MarioBros.PPM));
-        fdef.filter.categoryBits = MarioBros.MARIO_BIT;
+        feet.set(new Vector2(-4 / MarioBros.PPM, -6 / MarioBros.PPM), new Vector2(4 / MarioBros.PPM, -6 / MarioBros.PPM));
+        fdef.filter.categoryBits = MarioBros.MARIO_FEET_BIT;
+        fdef.filter.maskBits = MarioBros.GROUND_BIT | MarioBros.COIN_BIT | MarioBros.BRICK_BIT
+                | MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT
+                | MarioBros.ENEMY_HEAD_BIT | MarioBros.ITEM_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
@@ -364,6 +379,10 @@ public class Mario extends Sprite{
                 b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
             }
         }
+    }
+
+    public void finishLevel() {
+        isFinished = true;
     }
 
     public boolean getisMarioDead(){

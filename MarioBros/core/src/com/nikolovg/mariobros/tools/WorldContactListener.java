@@ -38,6 +38,7 @@ public class WorldContactListener implements ContactListener {
                 isJumpAllowed = false;
                 break;
 
+            case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_FEET_BIT:
             case MarioBros.ENEMY_HEAD_BIT | MarioBros.MARIO_BIT:
                 if(fixA.getFilterData().categoryBits == MarioBros.ENEMY_HEAD_BIT){
                     ((Enemy)fixA.getUserData()).hitOnHead((Mario) fixB.getUserData());
@@ -47,6 +48,14 @@ public class WorldContactListener implements ContactListener {
                 }
                 break;
 
+            case MarioBros.MARIO_BIT | MarioBros.FINISH_BIT:
+                if(fixA.getFilterData().categoryBits == MarioBros.MARIO_BIT){
+                    ((Mario) fixA.getUserData()).finishLevel();
+                }
+                else{
+                    ((Mario) fixB.getUserData()).finishLevel();
+                }
+                break;
 
             case MarioBros.ENEMY_BIT | MarioBros.OBJECT_BIT:
                 if(fixA.getFilterData().categoryBits == MarioBros.ENEMY_BIT){

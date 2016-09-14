@@ -75,7 +75,7 @@ public class PlayScreen implements Screen{
         b2dr = new Box2DDebugRenderer();
 
 
-        player = new Mario(this);
+        player = new Mario(this, game);
 
 
         creator = new B2WorldCreator(this);
@@ -108,7 +108,7 @@ public class PlayScreen implements Screen{
         // the player should not be able to control mario once he is dead
         if(player.currentState != Mario.State.DEAD) {
 
-            if ((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed()) && player.b2body.getLinearVelocity().y == 0 && WorldContactListener.isJumpAllowed) {
+            if (((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed())) && player.b2body.getLinearVelocity().y == 0 ) {//&& WorldContactListener.isJumpAllowed
                 player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
             }
             if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || controller.isRightPressed()) && player.b2body.getLinearVelocity().x <= 2) {
@@ -125,6 +125,7 @@ public class PlayScreen implements Screen{
         handleSpawningItems();
         world.step(1/60f, 6, 2);
         player.update(dt);
+
         for(Enemy enemy : creator.getEnemies()){
             enemy.update(dt);
             if(enemy.getX() < player.getX() + 224/ MarioBros.PPM){
@@ -192,6 +193,10 @@ public class PlayScreen implements Screen{
 
         if(isGameOver()){
             game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
+        if(Mario.isFinished && player.getStateTimer() > 1){
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
     }
