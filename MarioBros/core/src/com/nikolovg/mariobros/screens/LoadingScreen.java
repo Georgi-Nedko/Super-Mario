@@ -32,6 +32,7 @@ public class LoadingScreen implements Screen {
     private Stage stage;
 
     TextButton level_1;
+    TextButton level_2;
     TextButton level_test;
     Skin buttonSkin;
     TextureAtlas buttonsAtlas;
@@ -111,10 +112,13 @@ public class LoadingScreen implements Screen {
 //                                  }
 //        );
         level_1 = createButton(level_1,style,"level1.tmx","level 1");
-        level_test = createButton(level_test,style,"testLevel.tmx","Test");
-        level_test.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
+       // level_test = createButton(level_test,style,"testLevel.tmx","Test");
+       // level_test.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
+        level_2 = createButton(level_2,style,"level2.tmx","level 2");
+        level_2.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
+
         stage.addActor(level_1);
-        stage.addActor(level_test);
+        stage.addActor(level_2);
 
     }
 
@@ -203,10 +207,11 @@ public class LoadingScreen implements Screen {
 
                                 @Override
                                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                    if(alphaColor< 0.3f) {
+                                    if(alphaColor < 0.3f) {
                                         return;
                                     }
                                     else {
+
                                         game.setScreen(new PlayScreen(level, game));
                                         dispose();
                                     }
