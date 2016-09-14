@@ -122,6 +122,6 @@
   <object id="121" x="2784" y="176" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="finish">
-  <object id="124" x="3216" y="16" width="16" height="160"/>
+  <object id="124" x="3216" y="-1" width="16" height="177"/>
  </objectgroup>
 </map>

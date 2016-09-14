@@ -59,7 +59,7 @@ public class PlayScreen implements Screen{
     private Array<Item> items;
     private LinkedBlockingDeque<ItemDef> itemsToSpawn;
     private boolean isMoved;
-
+    private String level;
     public PlayScreen(String level, MarioBros game){
         isMoved = false;
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
@@ -69,6 +69,7 @@ public class PlayScreen implements Screen{
         hud = new Hud(game.batch);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(level);
+        this.level = level;
         renderer = new OrthogonalTiledMapRenderer(map, 1 / MarioBros.PPM);
         gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
         controller = new Controller(game);
@@ -122,7 +123,13 @@ public class PlayScreen implements Screen{
         }
     }
     public void moveMarioToCastle(float dt){
-        player.b2body.applyLinearImpulse(new Vector2(2.1f, 0), player.b2body.getWorldCenter(), true);
+        if(this.level.equals("level1.tmx")){
+            player.b2body.applyLinearImpulse(new Vector2(2.25f, 0), player.b2body.getWorldCenter(), true);
+        }
+        else{
+            player.b2body.applyLinearImpulse(new Vector2(2.1f, 0), player.b2body.getWorldCenter(), true);
+        }
+
         isMoved = true;
     }
 
@@ -209,6 +216,7 @@ public class PlayScreen implements Screen{
             dispose();
         }
         if(Mario.isFinished && player.getStateTimer() > 3){
+            music.stop();
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }
