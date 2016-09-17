@@ -24,7 +24,7 @@ import sun.rmi.runtime.Log;
 /**
  * Created by Freeware Sys on 23.8.2016 г..
  */
-public class LoadingScreen implements Screen {
+public class SelectLevelScreen implements Screen {
     private MarioBros game;
     private OrthographicCamera cam;
     private Texture background;
@@ -38,7 +38,7 @@ public class LoadingScreen implements Screen {
     TextureAtlas buttonsAtlas;
     BitmapFont font;
 
-    public LoadingScreen(final MarioBros game) {
+    public SelectLevelScreen(final MarioBros game) {
         this.game = game;
 
         this.cam = new OrthographicCamera();
@@ -65,52 +65,6 @@ public class LoadingScreen implements Screen {
         style.font = font;
         font.getData().scale(0f);
 
-//        //Make button style
-//        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
-//        //get button looks from the atlas
-//        buttonsAtlas = new TextureAtlas("skin-comic/comic-ui.atlas"); //**button atlas image **//
-//        buttonSkin = new Skin();
-//        buttonSkin.addRegions(buttonsAtlas);
-//        //** skins for on and off **//
-//        style.up = buttonSkin.getDrawable("button");
-//        style.down = buttonSkin.getDrawable("button-pressed");
-//        //** font **//ont **//
-//        font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), false);
-//        style.font = font;
-//        font.getData().scale(0f);
-//
-//        //set button properties
-//        level_1 = new TextButton("Level 1",style);
-//        // level_1.setColor(MainMenuScreen.myColor);
-//        level_1.setColor(MainMenuScreen.myColorAlphaChanged);
-//
-//
-//
-//
-//        //set height,width
-//        level_1.setHeight(stage.getViewport().getWorldHeight() / 8); //** Button Height **//
-//        level_1.setWidth(stage.getViewport().getWorldWidth() / 7.6f); //** Button Width **//
-//        //set position
-//        level_1.setPosition(50, stage.getViewport().getWorldHeight()/1.3f);
-//        //set Listener
-//        level_1.addListener(new InputListener() {
-//                                      @Override
-//                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                                          return true;
-//                                      }
-//
-//                                      @Override
-//                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                                          if(level_1.getColor().a < 0.9f) {
-//                                            return;
-//                                          }
-//                                          else {
-//                                              game.setScreen(new PlayScreen("level1.tmx", game));
-//                                              dispose();
-//                                          }
-//                                      }
-//                                  }
-//        );
         level_1 = createButton(level_1,style,"level1.tmx","level 1");
        // level_test = createButton(level_test,style,"testLevel.tmx","Test");
        // level_test.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
@@ -140,19 +94,11 @@ public class LoadingScreen implements Screen {
         game.batch.end();
 
 
-       /* if (Gdx.input.isTouched()) {
-            game.setScreen(new PlayScreen("level2.tmx",game));
-            dispose();
-        }*/
-
         stage.act();
 
         stage.draw();
 
-//        if (Gdx.input.isTouched()) {
-//            game.setScreen(new PlayScreen("testLevel.tmx",game));
-//            dispose();
-//        }
+
 
     }
 
@@ -180,6 +126,7 @@ public class LoadingScreen implements Screen {
     @Override
     public void dispose () {
         background.dispose();
+        stage.dispose();
     }
     public TextButton createButton(TextButton button, TextButton.TextButtonStyle style, final String level,String name){
 

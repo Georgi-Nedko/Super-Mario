@@ -97,7 +97,6 @@ public class SettingsScreen implements Screen {
         slider.setAnimateDuration(0.2f);
         slider.setVisible(true);
         slider.setValue(volumeValue);
-        slider.setName("SLIDER");
         slider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -142,47 +141,6 @@ public class SettingsScreen implements Screen {
 
 
 
-        /**
-         * a list if we need in the future
-         *
-        ///list style and LIST
-        List.ListStyle listStyle  = new List.ListStyle();
-        listSkin = new Skin();
-        listSkin.addRegions(sliderAtlas);
-        listStyle.font = font;
-        listStyle.fontColorSelected = Color.BLACK;
-        listStyle.fontColorUnselected = Color.BLACK;
-        listStyle.selection = listSkin.getDrawable("checkbox");
-        listStyle.background = listSkin.getDrawable("select-box-list");
-
-        list = new List(listStyle);
-        list.setWidth(stage.getViewport().getWorldWidth()/5f);
-        list.setHeight(stage.getViewport().getWorldHeight()/5f);
-        list.setPosition(stage.getViewport().getWorldWidth()/1.5f,stage.getViewport().getWorldHeight()/2f);
-
-        /// LIST CREATED
-        */
-
-
-        /**
-         * Select box if we need it in the future
-         *
-        ///select box
-//        SelectBox.SelectBoxStyle selectBoxStyle = new SelectBox.SelectBoxStyle();
-//        selectBoxSkin = new Skin();
-//        selectBoxSkin.addRegions(sliderAtlas);
-//        selectBoxStyle.background = selectBoxSkin.getDrawable("select-box");
-//        selectBoxStyle.backgroundOpen = selectBoxSkin.getDrawable("select-box-open");
-//
-//        selectBoxStyle.font = font;
-//        selectBoxStyle.fontColor = Color.WHITE;
-//        selectBoxStyle.listStyle = listStyle;
-//        selectBox = new SelectBox(selectBoxStyle);
-//        selectBox.setWidth(stage.getViewport().getWorldWidth()/10f);
-//        selectBox.setHeight(stage.getViewport().getWorldHeight()/5f);
-//        selectBox.setPosition(stage.getViewport().getWorldWidth()/1.5f,stage.getViewport().getWorldHeight()/1.5f);
-
-         **/
 
 
         stage.addActor(settingsLabel);
@@ -241,6 +199,7 @@ public class SettingsScreen implements Screen {
     @Override
     public void dispose()
     {
-
+        background.dispose();
+        stage.dispose();
     }
 }

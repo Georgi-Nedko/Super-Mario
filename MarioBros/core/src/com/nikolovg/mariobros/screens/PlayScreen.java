@@ -185,7 +185,7 @@ public class PlayScreen implements Screen{
 
         renderer.render();
 
-        //b2dr.render(world, gameCam.combined);
+        b2dr.render(world, gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
@@ -217,7 +217,7 @@ public class PlayScreen implements Screen{
         }
         if(Mario.isFinished && player.getStateTimer() > 3){
             music.stop();
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new CompleteLevelScreen(game));
             dispose();
         }
     }

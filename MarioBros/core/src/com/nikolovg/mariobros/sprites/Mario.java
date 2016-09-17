@@ -29,7 +29,7 @@ import com.nikolovg.mariobros.sprites.enemies.Turtle;
 public class Mario extends Sprite{
 
 
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD};
+    public enum State {FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD}
     public State currentState;
     public State previousState;
 

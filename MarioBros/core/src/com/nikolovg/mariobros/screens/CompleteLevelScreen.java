@@ -18,85 +18,84 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nikolovg.mariobros.MarioBros;
 
 /**
- * Created by Freeware Sys on 27.8.2016 г..
+ * Created by svetlio on 24.8.2016 г..
  */
-public class GameOverScreen implements Screen {
-    private  TextButton exitButton;
-    private  TextButton settingsButton;
-    private  Label gameOver;
-    private Viewport viewport;
+public class CompleteLevelScreen implements Screen{
     private Stage stage;
+    private TextButton newGameButton;
+    private TextButton settingsButton;
+    private TextButton exitButton;
+    private  Label congrats;
     private MarioBros game;
-
-    TextButton newGameButton;
-    Skin buttonSkin;
-    TextureAtlas buttonsAtlas;
-    BitmapFont font;
+    private Skin buttonSkin;
+    private TextureAtlas buttonsAtlas;
+    private BitmapFont font;
     private Texture background;
     private OrthographicCamera cam;
+    private Viewport viewport;
 
-    public GameOverScreen(final MarioBros game){
-        this.game = game;
-
-        background = new Texture("mario-SettingsScreen.jpg");
-
-
-
-        //set camera
+    public CompleteLevelScreen(MarioBros g) {
+        this.game = g;
         this.cam = new OrthographicCamera();
-        cam.setToOrtho(false, MarioBros.V_WIDTH / 2, MarioBros.V_HEIGHT / 2);
+
+        cam.setToOrtho(false, MarioBros.V_WIDTH/2, MarioBros.V_HEIGHT/2);
         cam.position.set(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, 0);
+        background = new Texture("complete_level.jpg");
 
-        viewport = new FillViewport(800, 400, cam);
-        // this.stage = new Stage(viewport, this.batch);
-        this.stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
-
-        //Make button style
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
-        //get button looks from the atlas
         buttonsAtlas = new TextureAtlas("skin-comic/comic-ui.atlas"); //**button atlas image **//
         buttonSkin = new Skin();
-        buttonSkin.addRegions(buttonsAtlas);
-        //** skins for on and off **//
+        buttonSkin.addRegions(buttonsAtlas); //** skins for on and off **//
+
+        font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), false); //** font **//
+        viewport = new FillViewport(623, 350, cam);
+        this.stage = new Stage(viewport);
+        Gdx.input.setInputProcessor(stage);
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
         style.up = buttonSkin.getDrawable("button");
         style.down = buttonSkin.getDrawable("button-pressed");
-        //** font **//ont **//
-        font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), false);
         style.font = font;
-        font.getData().scale(0.3f);
-        //set button properties
-        newGameButton = new TextButton("New Game",style);
-       // newGameButton.setColor(MainMenuScreen.myColor);
-        newGameButton.setColor(0f,0f,0f,0.9f);
+
+        font.getData().scale(0.1f);
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = font;
+
+        //main menu label
+        congrats = new Label("You are the best!", labelStyle);
+        congrats.setPosition(stage.getViewport().getWorldWidth()/2.6f,stage.getViewport().getWorldHeight()/1.3f);
+        congrats.setFontScale(1.3f);
 
 
-        //set height,width
-        newGameButton.setHeight(stage.getViewport().getWorldHeight() / 6); //** Button Height **//
-        newGameButton.setWidth(stage.getViewport().getWorldWidth() / 4); //** Button Width **//
-        //set position
-        newGameButton.setPosition(stage.getViewport().getWorldWidth() / 1.6f, stage.getViewport().getWorldHeight() / 1.8f);
-        //set Listener
+
+
+
+        newGameButton = new TextButton("New game", style);
+        newGameButton.setColor(1f,0.22f,0.3f,0.9f);
+
+        newGameButton.setHeight(stage.getViewport().getWorldHeight() /6 ); //** Button Height **//
+        newGameButton.setWidth(stage.getViewport().getWorldWidth() / 3.8f); //** Button Width **//
+        newGameButton.setPosition(stage.getViewport().getWorldWidth()/1.5f,stage.getViewport().getWorldHeight()/1.8f);
         newGameButton.addListener(new InputListener() {
-                                      @Override
-                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                          return true;
-                                      }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
 
-                                      @Override
-                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                          game.setScreen(new SelectLevelScreen(game));
-                                          dispose();
-                                      }
-                                  }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new SelectLevelScreen(game));
+                dispose();
+            }
+        }
         );
         //settings button
         settingsButton = new TextButton("Settings",style);
-        settingsButton.setColor(0f,0f,0f,0.9f);
-        settingsButton.setHeight(stage.getViewport().getWorldHeight() / 6); //** Button Height **//
-        settingsButton.setWidth(stage.getViewport().getWorldWidth() / 4); //** Button Width **//
+        //settingsButton.setColor(MainMenuScreen.myColorAlphaChanged);
+        settingsButton.setHeight(stage.getViewport().getWorldHeight() /6); //** Button Height **//
+        settingsButton.setWidth(stage.getViewport().getWorldWidth() / 3.8f); //** Button Width **//
+        settingsButton.setColor(1f,0.22f,0.3f,0.9f);
         //set position
-        settingsButton.setPosition(stage.getViewport().getWorldWidth() / 1.6f, stage.getViewport().getWorldHeight() / 2.2f);
+        settingsButton.setPosition(stage.getViewport().getWorldWidth() / 1.5f, stage.getViewport().getWorldHeight() / 2.45f);
         //listener for settings button
         settingsButton.addListener(new InputListener() {
                                        @Override
@@ -114,11 +113,11 @@ public class GameOverScreen implements Screen {
 
         //exit button
         exitButton = new TextButton("Exit",style);
-        exitButton.setColor(0f,0f,0f,0.9f);
+        exitButton.setColor(1f,0.22f,0.3f,0.9f);
         exitButton.setHeight(stage.getViewport().getWorldHeight() / 6); //** Button Height **//
-        exitButton.setWidth(stage.getViewport().getWorldWidth() / 4); //** Button Width **//
+        exitButton.setWidth(stage.getViewport().getWorldWidth() / 3.8f); //** Button Width **//
         //set position
-        exitButton.setPosition(stage.getViewport().getWorldWidth() / 1.6f, stage.getViewport().getWorldHeight() / 2.9f);
+        exitButton.setPosition(stage.getViewport().getWorldWidth() / 1.5f, stage.getViewport().getWorldHeight() / 3.75f);
         //listener for exit button
         exitButton.addListener(new InputListener() {
                                    @Override
@@ -137,18 +136,16 @@ public class GameOverScreen implements Screen {
 
 
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = font;
-        //main menu label
-        gameOver = new Label("GAME OVER", labelStyle);
-        gameOver.setPosition(stage.getViewport().getWorldWidth()/4.4f,stage.getViewport().getWorldHeight()/1.3f);
-        gameOver.setFontScale(2.7f);
 
 
-        stage.addActor(newGameButton);
-        stage.addActor(settingsButton);
-        stage.addActor(exitButton);
-        stage.addActor(gameOver);
+        stage.addActor (newGameButton);
+        stage.addActor (settingsButton);
+        stage.addActor (exitButton);
+        stage.addActor(congrats);
+
+
+
+
     }
 
     @Override
@@ -158,12 +155,10 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        if(Gdx.input.justTouched()){
-//            game.setScreen(new PlayScreen("level1.tmx", game));
-//            dispose();
-//        }
-        Gdx.gl.glClearColor(0,0,0,1);
+
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         cam.update();
         game.batch.setProjectionMatrix(cam.combined);
         game.batch.begin();

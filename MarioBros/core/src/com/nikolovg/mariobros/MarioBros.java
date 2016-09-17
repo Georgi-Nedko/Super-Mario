@@ -5,8 +5,9 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.nikolovg.mariobros.screens.ExampleScreen;
-import com.nikolovg.mariobros.screens.LoadingScreen;
+//import com.nikolovg.mariobros.screens.CompleteLevelScreen;
+//import com.nikolovg.mariobros.screens.SelectLevelScreen;
+import com.nikolovg.mariobros.screens.CompleteLevelScreen;
 import com.nikolovg.mariobros.screens.MainMenuScreen;
 
 public class MarioBros extends Game {

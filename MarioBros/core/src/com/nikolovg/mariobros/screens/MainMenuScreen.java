@@ -1,7 +1,6 @@
 package com.nikolovg.mariobros.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -41,7 +40,7 @@ public class MainMenuScreen implements Screen {
     private Viewport viewport;
     private static MainMenuScreen mainMenuScreen;
     public static final Color myColor = new Color(1f,0.35f,0f,0.9f);
-    public static final Color myColorAlphaChanged = new Color(1f,0.35f,0f,0.7f);
+    public static final Color myColorAlphaChanged = new Color(1f,0.2f,0f,0.7f);
 
 
 
@@ -94,7 +93,7 @@ public class MainMenuScreen implements Screen {
 
                                @Override
                                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                   game.setScreen(new LoadingScreen(game));
+                                   game.setScreen(new SelectLevelScreen(game));
                                    dispose();
                                }
                            }
@@ -124,7 +123,7 @@ public class MainMenuScreen implements Screen {
 
                                       @Override
                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                         // game.setScreen(new LoadingScreen(game));
+                                         // game.setScreen(new SelectLevelScreen(game));
                                           dispose();
                                       }
                                   }
@@ -169,7 +168,7 @@ public class MainMenuScreen implements Screen {
 
                                       @Override
                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                         // game.setScreen(new LoadingScreen(game));
+                                         // game.setScreen(new SelectLevelScreen(game));
                                           System.exit(0);
                                           dispose();
                                       }
@@ -233,7 +232,8 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        background.dispose();
+         stage.dispose();
 
 
     }
