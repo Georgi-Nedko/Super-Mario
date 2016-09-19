@@ -27,21 +27,21 @@ import com.nikolovg.mariobros.MarioBros;
  */
 public class SettingsScreen implements Screen {
 
-    Slider slider;
-    Label volumeLabel;
-    Label settingsLabel;
-    TextButton backButton;
-    Skin backButtonSkin;
+    private Slider slider;
+    private Label volumeLabel;
+    private Label settingsLabel;
+    private TextButton backButton;
+    private Skin backButtonSkin;
 
-    CheckBox checkBoxOn;
-    CheckBox.CheckBoxStyle checkBoxStyle;
+    private CheckBox checkBoxOn;
+    private CheckBox.CheckBoxStyle checkBoxStyle;
 
-    MarioBros game;
-    Skin sliderSkin;
-    TextureAtlas sliderAtlas;
+    private  MarioBros game;
+    private  Skin sliderSkin;
+    private TextureAtlas sliderAtlas;
 
-    BitmapFont font;
-    Stage stage;
+    private BitmapFont font;
+    private Stage stage;
     private Texture background;
     private OrthographicCamera cam;
     private Viewport viewport;
@@ -60,7 +60,7 @@ public class SettingsScreen implements Screen {
         background = new Texture("mario-SettingsScreen.jpg");
 
         //set viewport
-        viewport = new FillViewport(800,400,cam);
+        viewport = new FillViewport(background.getWidth(),background.getHeight(),cam);
 
         //set stage
         this.stage = new Stage(viewport);

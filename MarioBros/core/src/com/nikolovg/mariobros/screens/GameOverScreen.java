@@ -28,10 +28,10 @@ public class GameOverScreen implements Screen {
     private Stage stage;
     private MarioBros game;
 
-    TextButton newGameButton;
-    Skin buttonSkin;
-    TextureAtlas buttonsAtlas;
-    BitmapFont font;
+    private TextButton newGameButton;
+    private Skin buttonSkin;
+    private TextureAtlas buttonsAtlas;
+    private  BitmapFont font;
     private Texture background;
     private OrthographicCamera cam;
 

@@ -31,12 +31,12 @@ public class SelectLevelScreen implements Screen {
     private Viewport viewport;
     private Stage stage;
 
-    TextButton level_1;
-    TextButton level_2;
-    TextButton level_test;
-    Skin buttonSkin;
-    TextureAtlas buttonsAtlas;
-    BitmapFont font;
+    private TextButton level_1;
+    private TextButton level_2;
+    private TextButton level_test;
+    private Skin buttonSkin;
+    private TextureAtlas buttonsAtlas;
+    private BitmapFont font;
 
     public SelectLevelScreen(final MarioBros game) {
         this.game = game;

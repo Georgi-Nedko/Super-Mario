@@ -25,16 +25,16 @@ import com.badlogic.gdx.Screen;
  * Created by svetlio on 24.8.2016 г..
  */
 public class MainMenuScreen implements Screen {
-    Stage stage;
-    TextButton newGameButton;
-    TextButton loadGameButton;
-    TextButton settingsButton;
-    TextButton exitButton;
-    Label mainMenu;
-    MarioBros game;
-    Skin buttonSkin;
-    TextureAtlas buttonsAtlas;
-    BitmapFont font;
+    private Stage stage;
+    private TextButton newGameButton;
+    private TextButton loadGameButton;
+    private TextButton settingsButton;
+    private TextButton exitButton;
+    private Label mainMenu;
+    private MarioBros game;
+    private Skin buttonSkin;
+    private  TextureAtlas buttonsAtlas;
+    private BitmapFont font;
     private Texture background;
     private OrthographicCamera cam;
     private Viewport viewport;
@@ -108,7 +108,7 @@ public class MainMenuScreen implements Screen {
 
 
         //Load Game button
-        loadGameButton = new TextButton("Load Game",style);
+        loadGameButton = new TextButton("Credits",style);
         loadGameButton.setColor(myColor);
         loadGameButton.setHeight(stage.getViewport().getWorldHeight() / 6); //** Button Height **//
         loadGameButton.setWidth(stage.getViewport().getWorldWidth() / 4); //** Button Width **//
@@ -123,7 +123,7 @@ public class MainMenuScreen implements Screen {
 
                                       @Override
                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                         // game.setScreen(new SelectLevelScreen(game));
+                                          game.setScreen(new CreditsScreen(game));
                                           dispose();
                                       }
                                   }

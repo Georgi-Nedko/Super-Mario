@@ -47,7 +47,7 @@ public class CompleteLevelScreen implements Screen{
         buttonSkin.addRegions(buttonsAtlas); //** skins for on and off **//
 
         font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), false); //** font **//
-        viewport = new FillViewport(623, 350, cam);
+        viewport = new FillViewport(background.getWidth(), background.getHeight(), cam);
         this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
