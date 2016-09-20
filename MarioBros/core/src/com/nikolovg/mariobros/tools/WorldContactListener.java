@@ -17,8 +17,14 @@ import com.nikolovg.mariobros.sprites.tiles.InteractiveTileObject;
  */
 public class WorldContactListener implements ContactListener {
     public static boolean isJumpAllowed = true;
+    /*
+    * This class listens for collisions in the world.
+    * Upon a collision it returns two fixtures that have collided.
+    * We don't know which fixture is what so we need to switch all
+    * possible pairs and check which fixture is which to avoid class cast exceptions.*/
     @Override
     public void beginContact(Contact contact) {
+        // this method is called right after the collision has occurred
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
@@ -101,6 +107,7 @@ public class WorldContactListener implements ContactListener {
     }
 
     @Override
+    // this method is called right after the two bodies have separated and are no longer touching
     public void endContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
@@ -116,11 +123,11 @@ public class WorldContactListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
+        // here we can calculate something before the collision has ended and while the bodies are still in contact
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
+        // here we should do any calculations that involve what will happen when the two fixtures separate and are no longer touching
     }
 }

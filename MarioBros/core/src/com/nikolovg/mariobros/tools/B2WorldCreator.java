@@ -18,12 +18,17 @@ import com.nikolovg.mariobros.sprites.tiles.Brick;
 import com.nikolovg.mariobros.sprites.tiles.Coin;
 import com.nikolovg.mariobros.sprites.enemies.Goomba;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Freeware Sys on 8/18/2016.
  */
 public class B2WorldCreator {
-    private Array<Goomba> goombas;
-    private Array<Turtle> turtles;
+    private ArrayList<Goomba> goombas;
+    private ArrayList<Turtle> turtles;
 
     public B2WorldCreator(PlayScreen screen){
         World world = screen.getWorld();
@@ -35,12 +40,19 @@ public class B2WorldCreator {
 
         // create ground body/fixtures
         for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
+            // we get the object layer corresponding to the ground and get the individual rectangle objects
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            //static body means it can not be affected by forces in the world such as gravity or impulses
             bDef.type = BodyDef.BodyType.StaticBody;
+            //position the body where it should be according to the map we have created
             bDef.position.set((rect.getX() + rect.getWidth()/2)/ MarioBros.PPM, (rect.getY() + rect.getHeight()/2)/ MarioBros.PPM);
             body = world.createBody(bDef);
+            //we tell the physics engine this shape (a Polygon) is infact a box since that makes it easier to handle it
+            // and the physics engine has an easier time calculating for it
             shape.setAsBox(rect.getWidth()/2/ MarioBros.PPM , rect.getHeight()/2/ MarioBros.PPM);
             fDef.shape = shape;
+            // we tell the collision listener that these rectangles will be the ground
+            fDef.filter.categoryBits = MarioBros.GROUND_BIT;
             body.createFixture(fDef);
 
         }
@@ -71,19 +83,15 @@ public class B2WorldCreator {
 
         //create brick body/fixture
         for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
-
             new Brick(screen, object);
-
         }
         //create coin body/fixture
         for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
-
             new Coin(screen, object);
-
         }
 
         //create goombas
-        goombas = new Array<Goomba>();
+        goombas = new ArrayList<Goomba>();
         for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             goombas.add(new Goomba(screen, rect.getX()/MarioBros.PPM, rect.getY() / MarioBros.PPM));
@@ -91,7 +99,7 @@ public class B2WorldCreator {
         }
 
         // create turtles
-        turtles = new Array<Turtle>();
+        turtles = new ArrayList<Turtle>();
         for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             turtles.add(new Turtle(screen, rect.getX()/MarioBros.PPM, rect.getY() / MarioBros.PPM));
@@ -100,14 +108,12 @@ public class B2WorldCreator {
     }
 
 
-   /* public Array<Goomba> getGoombas(){
-        return goombas;
-    }*/
-    public Array<Enemy> getEnemies(){
-        Array<Enemy> enemies = new Array<Enemy>();
+
+    public List<Enemy> getEnemies(){
+        ArrayList<Enemy> enemies = new ArrayList<Enemy>();
         enemies.addAll(goombas);
         enemies.addAll(turtles);
-        return enemies;
+        return Collections.unmodifiableList(enemies);
     }
 
 }

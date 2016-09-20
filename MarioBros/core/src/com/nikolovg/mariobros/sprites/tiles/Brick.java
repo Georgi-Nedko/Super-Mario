@@ -23,14 +23,13 @@ public class Brick extends com.nikolovg.mariobros.sprites.tiles.InteractiveTileO
     @Override
     public void onHeadHit(Mario mario) {
         if(mario.getIsMarioBig()) {
-            Gdx.app.log("Brick", "Collision");
             setCategoryFilter(MarioBros.DESTROYED_BIT);
             getCell().setTile(null);
             Hud.addScore(200);
-            MarioBros.manager.get("audio/sounds/breakblock.wav", Sound.class).play(SettingsScreen.volumeValue);
+            screen.getGame().manager.get("audio/sounds/breakblock.wav", Sound.class).play(SettingsScreen.volumeValue);
         }
         else{
-            MarioBros.manager.get("audio/sounds/bump.wav", Sound.class).play(SettingsScreen.volumeValue);
+            screen.getGame().manager.get("audio/sounds/bump.wav", Sound.class).play(SettingsScreen.volumeValue);
         }
     }
 }

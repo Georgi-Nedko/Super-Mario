@@ -27,17 +27,13 @@ import com.nikolovg.mariobros.tools.B2WorldCreator;
 import com.nikolovg.mariobros.tools.Controller;
 import com.nikolovg.mariobros.tools.WorldContactListener;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import sun.rmi.runtime.Log;
 
 /**
  * Created by Freeware Sys on 8/18/2016.
  */
 public class PlayScreen implements Screen{
+
     private MarioBros game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
@@ -60,13 +56,24 @@ public class PlayScreen implements Screen{
     private LinkedBlockingDeque<ItemDef> itemsToSpawn;
     private boolean isMoved;
     private String level;
-    public PlayScreen(String level, MarioBros game){
+
+    private static final int RADIUS_OF_MONSTER_SLEEP = 224;
+    private static final float DEFAULT_WAIT_FOR_TRANSITION = 3;
+    private static final float TIME_BEFORE_SPRITE_REMOVAL = 0.5f;
+    private static final float IMPULSE_TO_CASTLE_DOOR_ON_LVL1 = 2.25f;
+    private  static final float IMPULSE_TO_CASTLE_DOOR_ON_LVL2 = 2.1f;
+    private static final float RUNNING_IMPULSE_LEFT = -0.1f;
+    private static final float RUNNING_IMPULSE_RIGHT = 0.1f;
+    private static final float IMPULSE_JUMP = 4f;
+    private static final float WORLD_GRAVITY = -10;
+
+    public PlayScreen(String level, String hudWorld, MarioBros game){
         isMoved = false;
         atlas = new TextureAtlas("Mario_and_Enemies.pack");
         this.game = game;
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(MarioBros.V_WIDTH / MarioBros.PPM, MarioBros.V_HEIGHT / MarioBros.PPM,gameCam);
-        hud = new Hud(game.batch);
+        hud = new Hud(hudWorld,game.batch);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(level);
         this.level = level;
@@ -74,7 +81,7 @@ public class PlayScreen implements Screen{
         gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
         controller = new Controller(game);
 
-        world = new World(new Vector2(0, -10), true);
+        world = new World(new Vector2(0, WORLD_GRAVITY), true);
         b2dr = new Box2DDebugRenderer();
 
 
@@ -84,7 +91,7 @@ public class PlayScreen implements Screen{
         creator = new B2WorldCreator(this);
         world.setContactListener(new WorldContactListener());
 
-        music = MarioBros.manager.get("audio/music/mario_music.ogg", Music.class);
+        music = game.manager.get("audio/music/mario_music.ogg", Music.class);
         music.setLooping(true);
         music.play();
         music.setVolume(SettingsScreen.volumeValue);
@@ -112,22 +119,22 @@ public class PlayScreen implements Screen{
         if(player.currentState != Mario.State.DEAD && !Mario.isFinished) {
 
             if (((Gdx.input.isKeyJustPressed(Input.Keys.UP) || controller.isUpPressed())) && player.b2body.getLinearVelocity().y == 0 ) {//&& WorldContactListener.isJumpAllowed
-                player.b2body.applyLinearImpulse(new Vector2(0, 4f), player.b2body.getWorldCenter(), true);
+                player.b2body.applyLinearImpulse(new Vector2(0, IMPULSE_JUMP), player.b2body.getWorldCenter(), true);
             }
             if ((Gdx.input.isKeyPressed(Input.Keys.RIGHT) || controller.isRightPressed()) && player.b2body.getLinearVelocity().x <= 2) {
-                player.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player.b2body.getWorldCenter(), true);
+                player.b2body.applyLinearImpulse(new Vector2(RUNNING_IMPULSE_RIGHT, 0), player.b2body.getWorldCenter(), true);
             }
             if ((Gdx.input.isKeyPressed(Input.Keys.LEFT) || controller.isLeftPressed()) && player.b2body.getLinearVelocity().x >= -2) {
-                player.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player.b2body.getWorldCenter(), true);
+                player.b2body.applyLinearImpulse(new Vector2(RUNNING_IMPULSE_LEFT, 0), player.b2body.getWorldCenter(), true);
             }
         }
     }
     public void moveMarioToCastle(float dt){
         if(this.level.equals("level1.tmx")){
-            player.b2body.applyLinearImpulse(new Vector2(2.25f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(IMPULSE_TO_CASTLE_DOOR_ON_LVL1, 0), player.b2body.getWorldCenter(), true);
         }
         else{
-            player.b2body.applyLinearImpulse(new Vector2(2.1f, 0), player.b2body.getWorldCenter(), true);
+            player.b2body.applyLinearImpulse(new Vector2(IMPULSE_TO_CASTLE_DOOR_ON_LVL2, 0), player.b2body.getWorldCenter(), true);
         }
 
         isMoved = true;
@@ -144,7 +151,7 @@ public class PlayScreen implements Screen{
         }
         for(Enemy enemy : creator.getEnemies()){
             enemy.update(dt);
-            if(enemy.getX() < player.getX() + 224/ MarioBros.PPM){
+            if(enemy.getX() < player.getX() + RADIUS_OF_MONSTER_SLEEP/ MarioBros.PPM){
                 enemy.b2Body.setActive(true);
             }
         }
@@ -190,7 +197,7 @@ public class PlayScreen implements Screen{
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         // stop drawing mario when he is moved to the castle door and is there for more than 0.5 seconds
-        if(!((isMoved && player.b2body.getLinearVelocity().x == 0 )&& player.getStateTimer() > 0.5f )){
+        if(!((isMoved && player.b2body.getLinearVelocity().x == 0 )&& player.getStateTimer() > TIME_BEFORE_SPRITE_REMOVAL )){
             player.draw(game.batch);
         }
 
@@ -215,7 +222,7 @@ public class PlayScreen implements Screen{
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
-        if(Mario.isFinished && player.getStateTimer() > 3){
+        if(Mario.isFinished && player.getStateTimer() > DEFAULT_WAIT_FOR_TRANSITION){
             music.stop();
             game.setScreen(new CompleteLevelScreen(game));
             dispose();
@@ -236,7 +243,7 @@ public class PlayScreen implements Screen{
         return world;
     }
     public boolean isGameOver(){
-        if(player.currentState == Mario.State.DEAD && player.getStateTimer() > 3){
+        if(player.currentState == Mario.State.DEAD && player.getStateTimer() > DEFAULT_WAIT_FOR_TRANSITION){
             return  true;
         }
         return false;
@@ -264,5 +271,12 @@ public class PlayScreen implements Screen{
         world.dispose();
         b2dr.dispose();
         hud.dispose();
+    }
+
+    public Hud getHud() {
+        return hud;
+    }
+    public MarioBros getGame(){
+        return this.game;
     }
 }

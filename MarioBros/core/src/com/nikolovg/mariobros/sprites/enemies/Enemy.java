@@ -15,13 +15,14 @@ public abstract class Enemy extends Sprite {
     protected PlayScreen screen;
     public Body b2Body;
     public Vector2 velocity;
+    private static final float DEFAULT_ENEMY_VELOCITY = -0.5f;
 
     public Enemy(PlayScreen screen, float x, float y){
         this.world = screen.getWorld();
         this.screen = screen;
         setPosition(x,y);
         defineEnemy();
-        velocity = new Vector2(-1,-2);
+        velocity = new Vector2(DEFAULT_ENEMY_VELOCITY,0);
         b2Body.setActive(false);
     }
 

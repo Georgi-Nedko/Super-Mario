@@ -31,7 +31,7 @@ public class MarioBros extends Game {
 	public static final short FINISH_BIT = 2048;
 
 
-	public static AssetManager manager;
+	public AssetManager manager;
 
 	@Override
 	public void create() {

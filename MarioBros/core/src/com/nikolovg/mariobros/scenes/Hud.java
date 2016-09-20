@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.nikolovg.mariobros.MarioBros;
+import com.nikolovg.mariobros.screens.PlayScreen;
+import com.nikolovg.mariobros.sprites.Mario;
 
 /**
  * Created by Freeware Sys on 8/18/2016.
@@ -30,7 +32,7 @@ public class Hud implements Disposable{
     Label worldLabel;
     Label marioLabel;
 
-    public Hud(SpriteBatch sb){
+    public Hud(String level, SpriteBatch sb){
         worldTimer = 300;
         timeCount = 0;
         score = 0;
@@ -44,7 +46,7 @@ public class Hud implements Disposable{
         countDownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        levelLabel = new Label(level, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         marioLabel = new Label("MARIO", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
@@ -62,10 +64,13 @@ public class Hud implements Disposable{
     public void update(float dt){
         timeCount += dt;
         if(timeCount >= 1){
-            worldTimer--;
+            if(worldTimer != 0){
+                worldTimer--;
+            }
             countDownLabel.setText(String.format("%03d", worldTimer));
             timeCount = 0;
         }
+
     }
 
     public static void addScore(int value){
@@ -76,5 +81,9 @@ public class Hud implements Disposable{
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public Integer getWorldTimer() {
+        return worldTimer;
     }
 }

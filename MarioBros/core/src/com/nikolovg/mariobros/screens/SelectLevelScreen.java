@@ -65,10 +65,10 @@ public class SelectLevelScreen implements Screen {
         style.font = font;
         font.getData().scale(0f);
 
-        level_1 = createButton(level_1,style,"level1.tmx","level 1");
+        level_1 = createButton(level_1,style,"level1.tmx","level 1", "1-1");
        // level_test = createButton(level_test,style,"testLevel.tmx","Test");
        // level_test.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
-        level_2 = createButton(level_2,style,"level2.tmx","level 2");
+        level_2 = createButton(level_2,style,"level2.tmx","level 2", "2-1");
         level_2.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
 
         stage.addActor(level_1);
@@ -128,7 +128,7 @@ public class SelectLevelScreen implements Screen {
         background.dispose();
         stage.dispose();
     }
-    public TextButton createButton(TextButton button, TextButton.TextButtonStyle style, final String level,String name){
+    public TextButton createButton(TextButton button, TextButton.TextButtonStyle style, final String level,String name, final String hudWorld){
 
 
         //set button properties
@@ -159,7 +159,7 @@ public class SelectLevelScreen implements Screen {
                                     }
                                     else {
 
-                                        game.setScreen(new PlayScreen(level, game));
+                                        game.setScreen(new PlayScreen(level, hudWorld, game));
                                         dispose();
                                     }
                                 }

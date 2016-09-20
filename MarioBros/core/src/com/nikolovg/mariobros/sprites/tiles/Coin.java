@@ -33,19 +33,17 @@ public class Coin  extends com.nikolovg.mariobros.sprites.tiles.InteractiveTileO
 
     @Override
     public void onHeadHit(Mario mario) {
-        Gdx.app.log("Coin", "Collision");
         if(getCell().getTile().getId() == BLANK_COIN){
-            MarioBros.manager.get("audio/sounds/bump.wav", Sound.class).play(SettingsScreen.volumeValue);
+            screen.getGame().manager.get("audio/sounds/bump.wav", Sound.class).play(SettingsScreen.volumeValue);
         }
         else{
 
             if(object.getProperties().containsKey("mushroom")) {
-                Gdx.app.log("Mushroom", "Spawn");
                 screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / MarioBros.PPM), Mushroom.class));
-                MarioBros.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play(SettingsScreen.volumeValue);
+                screen.getGame().manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play(SettingsScreen.volumeValue);
             }
             else {
-                MarioBros.manager.get("audio/sounds/coin.wav", Sound.class).play(SettingsScreen.volumeValue);
+                screen.getGame().manager.get("audio/sounds/coin.wav", Sound.class).play(SettingsScreen.volumeValue);
             }
         }
         // increase the score only the first time when a coin brick is hit
