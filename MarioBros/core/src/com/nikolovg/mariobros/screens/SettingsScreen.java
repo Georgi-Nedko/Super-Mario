@@ -36,8 +36,8 @@ public class SettingsScreen implements Screen {
     private CheckBox checkBoxOn;
     private CheckBox.CheckBoxStyle checkBoxStyle;
 
-    private  MarioBros game;
-    private  Skin sliderSkin;
+    private MarioBros game;
+    private Skin sliderSkin;
     private TextureAtlas sliderAtlas;
 
     private BitmapFont font;

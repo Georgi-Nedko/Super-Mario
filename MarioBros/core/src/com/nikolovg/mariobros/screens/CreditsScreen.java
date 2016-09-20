@@ -23,13 +23,13 @@ import com.nikolovg.mariobros.MarioBros;
 public class CreditsScreen implements Screen{
     private MarioBros game;
     private OrthographicCamera cam;
-    private Viewport viewport;
+    private Viewport viewport; // how the screen looks//
     private Texture background;
     private Stage stage;
 
-    private Skin buttonSkin;
-    private TextureAtlas buttonsAtlas;
-    private BitmapFont font;
+    private Skin buttonSkin; //The Skin class stores resources for UI widgets to use.
+    private TextureAtlas buttonsAtlas; //The Texture Atlas output is a directory of page images and a text file that describes all the images packed on the pages//
+    private BitmapFont font;  //If you want to draw text in your game, you usually use a BitmapFont
     private TextButton backButton;
 
     private Label label1;
@@ -37,7 +37,7 @@ public class CreditsScreen implements Screen{
     private Label label3;
     private Label label4;
     public CreditsScreen(MarioBros g) {
-        //seting game
+        //setting game
         this.game = g;
         //set camera
         this.cam = new OrthographicCamera();
@@ -45,15 +45,15 @@ public class CreditsScreen implements Screen{
         cam.position.set(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, 0);
         //set background
         background = new Texture("mario-credits.jpg");
+        //set viewport//
         viewport = new FillViewport(background.getWidth(), background.getHeight(), cam);
-        // this.stage = new Stage(viewport, this.batch);
+        //set stage//
         this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
 
-
-        //Make button style
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
+        //Make buttons style
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         //get button looks from the atlas
         buttonsAtlas = new TextureAtlas("skin-comic/comic-ui.atlas"); //**button atlas image **//
         buttonSkin = new Skin();
@@ -70,13 +70,12 @@ public class CreditsScreen implements Screen{
 
 
 
-        //set button properties
+        //making back button
         backButton = new TextButton("Back",style);
         backButton.setColor(0f,0f,0f,0.9f);
-        //set height,width
+        //set position and its dimensionality
         backButton.setHeight(stage.getViewport().getWorldHeight() / 6); //** Button Height **//
         backButton.setWidth(stage.getViewport().getWorldWidth() / 4); //** Button Width **//
-        //set position
         backButton.setPosition(stage.getViewport().getWorldWidth()/1.3f, stage.getViewport().getWorldHeight() / 6f);
         //set Listener
         backButton.addListener(new InputListener() {
@@ -93,7 +92,7 @@ public class CreditsScreen implements Screen{
                                   }
         );
 
-
+        //making  label style
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.font = font;
         // creating label 1
@@ -126,9 +125,7 @@ public class CreditsScreen implements Screen{
         label4.setColor(Color.GOLDENROD);
 
 
-
-
-
+        //add actors to the stage
         stage.addActor(backButton);
         stage.addActor(label1);
         stage.addActor(label2);
@@ -146,15 +143,15 @@ public class CreditsScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         cam.update();
+        //the batch draw the background
         game.batch.setProjectionMatrix(cam.combined);
         game.batch.begin();
         game.batch.draw(background,0,0);
         game.batch.end();
 
+        //stage draw actors
         stage.act();
-
         stage.draw();
-        // dispose();
     }
 
     @Override

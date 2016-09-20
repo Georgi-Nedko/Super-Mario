@@ -28,26 +28,28 @@ public class SelectLevelScreen implements Screen {
     private MarioBros game;
     private OrthographicCamera cam;
     private Texture background;
-    private Viewport viewport;
+    private Viewport viewport; // how the screen looks//
     private Stage stage;
 
     private TextButton level_1;
     private TextButton level_2;
     private TextButton level_test;
-    private Skin buttonSkin;
-    private TextureAtlas buttonsAtlas;
-    private BitmapFont font;
+    private Skin buttonSkin;  //The Skin class stores resources for UI widgets to use
+    private TextureAtlas buttonsAtlas; //The Texture Atlas output is a directory of page images and a text file that describes all the images packed on the pages//
+    private BitmapFont font; //If you want to draw text in your game, you usually use a BitmapFont
 
     public SelectLevelScreen(final MarioBros game) {
+        //setting game
         this.game = game;
-
+        //set camera
         this.cam = new OrthographicCamera();
-
         cam.setToOrtho(false, MarioBros.V_WIDTH/2, MarioBros.V_HEIGHT/2);
         cam.position.set(MarioBros.V_WIDTH, MarioBros.V_HEIGHT, 0);
-        viewport = new FillViewport(800, 420, cam);
+        //set background
         background = new Texture("loading.jpg");
-
+        //set viewport//
+        viewport = new FillViewport(800, 420, cam);
+        //set stage
         this.stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
@@ -60,17 +62,17 @@ public class SelectLevelScreen implements Screen {
         //** skins for on and off **//
         style.up = buttonSkin.getDrawable("button");
         style.down = buttonSkin.getDrawable("button-pressed");
-        //** font **//ont **//
+        //** font  **//
         font = new BitmapFont(Gdx.files.internal("skin/font-export.fnt"), false);
         style.font = font;
         font.getData().scale(0f);
 
+        //CREATING BUTTONS WITH METHOD
         level_1 = createButton(level_1,style,"level1.tmx","level 1", "1-1");
-       // level_test = createButton(level_test,style,"testLevel.tmx","Test");
-       // level_test.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
         level_2 = createButton(level_2,style,"level2.tmx","level 2", "2-1");
         level_2.setPosition(stage.getViewport().getWorldWidth()/3.6f,stage.getViewport().getWorldHeight()/1.3f);
 
+        //add actors to the stage
         stage.addActor(level_1);
         stage.addActor(level_2);
 
@@ -87,15 +89,14 @@ public class SelectLevelScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         cam.update();
+        //the batch draw the background
         game.batch.setProjectionMatrix(cam.combined);
-
         game.batch.begin();
         game.batch.draw(background, 0, 0);
         game.batch.end();
 
-
+        //stage draw actors
         stage.act();
-
         stage.draw();
 
 
@@ -131,19 +132,16 @@ public class SelectLevelScreen implements Screen {
     public TextButton createButton(TextButton button, TextButton.TextButtonStyle style, final String level,String name, final String hudWorld){
 
 
-        //set button properties
-        //level.split(".tmx")[0]
+
+        //CREATE BUTTON WITH NAME AND STYLE
         button = new TextButton(name,style);
-        // level_1.setColor(MainMenuScreen.myColor);
+        //SETTING COLOR
         button.setColor(MainMenuScreen.myColorAlphaChanged);
-
-
-
+        //GETTING ALPHA OF THE BUTTON
         final double alphaColor = button.getColor().a;
-        //set height,width
+        //set position and its dimensionality
         button.setHeight(stage.getViewport().getWorldHeight() / 8); //** Button Height **//
         button.setWidth(stage.getViewport().getWorldWidth() / 7.6f); //** Button Width **//
-        //set position
         button.setPosition(stage.getViewport().getWorldWidth()/ 15f, stage.getViewport().getWorldHeight()/1.3f);
         //set Listener
         button.addListener(new InputListener() {
@@ -154,14 +152,14 @@ public class SelectLevelScreen implements Screen {
 
                                 @Override
                                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                    if(alphaColor < 0.3f) {
-                                        return;
-                                    }
-                                    else {
+//                                    if(alphaColor < 0.3f) {
+//                                        return;
+//                                    }
+//                                    else {
 
                                         game.setScreen(new PlayScreen(level, hudWorld, game));
                                         dispose();
-                                    }
+                                  //  }
                                 }
                             }
         );
