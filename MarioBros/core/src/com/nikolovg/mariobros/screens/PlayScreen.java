@@ -191,8 +191,8 @@ public class PlayScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-
-        b2dr.render(world, gameCam.combined);
+        //helps for checking collisions
+        //b2dr.render(world, gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
